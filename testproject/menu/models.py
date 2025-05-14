@@ -1,5 +1,5 @@
-from django.db import models
-from django.urls import reverse
+from django.db import models # type: ignore
+from django.urls import reverse # type: ignore
 
 class Menu(models.Model):
     name = models.CharField(max_length=100, unique=True)
