@@ -1,11 +1,22 @@
 from django.db import models # type: ignore
 from django.urls import reverse # type: ignore
+from django.utils.text import slugify
 
 class Menu(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100, unique=True, verbose_name='Menu Name')
+    slug = models.SlugField(max_length=50, null=True, unique=True, verbose_name='Menu Slug')
+
+    class Meta:
+        verbose_name = 'menu'
+        verbose_name_plural = 'menus'
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
     
 
 class MenuItem(models.Model):
@@ -15,13 +26,18 @@ class MenuItem(models.Model):
     named_url = models.CharField(max_length=100, blank=True)
     url = models.CharField(max_length=300, blank=True)
 
+    class Meta:
+        verbose_name = 'menu item'
+        verbose_name_plural = 'menu items'
+
+
     def __str__(self):
         return self.title
-    
-    def get_absolute_url(self):
+
+    def get_url(self):
         if self.named_url:
             try:
                 return reverse(self.named_url)
             except Exception:
                 return '#'
-        return self.url or '#'
+        return self.url

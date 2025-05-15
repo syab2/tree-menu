@@ -1,10 +1,16 @@
-{% extends './index.html' %}
-
-
-{% block menu %}
-    <ul class="menu">
-        
-        
-            
-    </ul>
-{% endblock menu %}
+<ul class="menu">
+    {% for item in menu_tree %}
+        <li class="menu-item {% if item.is_active or item.has_active_child %}active{% endif %}">
+            <a href="{{ item.item.get_url }}" 
+               class="{% if item.is_active %}active{% endif %}">
+                {{ item.item.title }}
+            </a>
+            {% if item.children %}
+                <!-- Используем тот же шаблон для подменю -->
+                {% with menu_tree=item.children %}
+                    {% include "menu/menu.html" %}
+                {% endwith %}
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

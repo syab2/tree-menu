@@ -6,8 +6,6 @@
     <title>Menu</title>
 </head>
 <body>
-    {% block menu %}
-        {% include './menu.html' %}
-    {% endblock %}
-</body>
+    {% load menu_tags %}
+    {% draw_menu 'main_menu' %}
 </html>
