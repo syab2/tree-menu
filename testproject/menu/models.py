@@ -36,8 +36,5 @@ class MenuItem(models.Model):
 
     def get_url(self):
         if self.named_url:
-            try:
-                return reverse(self.named_url)
-            except Exception:
-                return '#'
+            return self.named_url
         return self.url
