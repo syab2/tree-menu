@@ -1,80 +1,80 @@
 @echo off
-:: Скрипт для автоматической настройки Django-проекта
-:: Версия 1.0
-:: Автор: Ваше Имя
+:: Script for automatic configuration of Django project
+:: Version 1.0
+:: Author: Krylov Nikolay
 
 echo #############################################
-echo # Настройка Django-проекта                  #
+echo # Setting up a Django project               #
 echo #############################################
 echo.
 
-:: Проверка наличия Python
+:: Checking for Python
 python --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo ОШИБКА: Python не установлен или не добавлен в PATH
+    echo ERROR: Python is not installed or added to PATH
     pause
     exit /b
 )
 
-:: Проверка версии Python
+:: Checking the Python version
 for /f "tokens=2 delims= " %%A in ('python --version 2^>^&1') do set python_version=%%A
 for /f "tokens=1,2 delims=." %%A in ("%python_version%") do (
     if %%A LSS 3 (
-        echo ОШИБКА: Требуется Python 3.8 или выше
+        echo ERROR: Python 3.8 or higher required
         pause
         exit /b
     )
     if %%A EQU 3 if %%B LSS 8 (
-        echo ОШИБКА: Требуется Python 3.8 или выше
+        echo ERROR: Python 3.8 or higher required
         pause
         exit /b
     )
 )
 
-:: Создание виртуального окружения
-echo Создание виртуального окружения...
+:: Creating a virtual environment
+echo Creating a virtual environment...
 python -m venv venv
 if %errorlevel% neq 0 (
-    echo ОШИБКА: Не удалось создать виртуальное окружение
+    echo ERROR: Failed to create virtual environment
     pause
     exit /b
 )
 
-:: Активация окружения
-echo Активация виртуального окружения...
+:: Activation of the environment
+echo Activation of the environment...
 call venv\Scripts\activate
 if %errorlevel% neq 0 (
-    echo ОШИБКА: Не удалось активировать виртуальное окружение
+    echo ERROR: Failed to activate virtual environment
     pause
     exit /b
 )
 
-:: Установка зависимостей
-echo Установка зависимостей...
+:: Installing dependencies
+echo Installing dependencies...
 pip install -r requirements.txt
 if %errorlevel% neq 0 (
-    echo ОШИБКА: Не удалось установить зависимости
+    echo ERROR: Failed to install dependencies
     pause
     exit /b
 )
 
-:: Применение миграций
-echo Применение миграций...
+:: Applying migrations
+echo Applying migrations...
 python manage.py migrate
 if %errorlevel% neq 0 (
-    echo ОШИБКА: Не удалось применить миграции
+    echo ERROR: Failed to run event
     pause
     exit /b
 )
 
-:: Создание суперпользователя (опционально)
-set /p create_superuser="Создать суперпользователя? (y/n): "
+:: Create a superuser (optional)
+set /p create_superuser="Create superuser? (y/n):"
 if /i "%create_superuser%"=="y" (
     python manage.py createsuperuser
 )
 
 :: Запуск сервера
-echo Запуск сервера разработки...
+echo Launching development server...
 start http://127.0.0.1:8000/
 python manage.py runserver
 
