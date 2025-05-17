@@ -1,16 +1,19 @@
 <ul class="menu">
     {% for item in menu_tree %}
-        <li class="menu-item {% if item.is_active or item.has_active_child %}active{% endif %}">
-            <a href="/menu/{{ item.item.get_url }}" 
-               class="{% if item.is_active %}active{% endif %}">
+        <li class="menu-item {% if item.is_active %}active{% endif %} level-{{ item.level }}">
+            <a href="/menu/{{ item.item.get_url }}/">
                 {{ item.item.title }}
+                {% if item.children %}
+                    <span class="toggle">
+                        [{% if item.should_expand %}-{% else %}+{% endif %}]
+                    </span>
+                {% endif %}
             </a>
-            {% if item.children %}
-                <!-- Используем тот же шаблон для подменю -->
-                {% with menu_tree=item.children %}
-                    {% include "menu/menu.html" %}
-                {% endwith %}
+            
+            {% if item.children and item.should_expand %}
+                {% include "menu/menu.html" with menu_tree=item.children %}
             {% endif %}
         </li>
     {% endfor %}
 </ul>
+

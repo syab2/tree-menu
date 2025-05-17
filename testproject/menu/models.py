@@ -1,6 +1,6 @@
 from django.db import models # type: ignore
 from django.urls import reverse # type: ignore
-from django.utils.text import slugify
+from django.utils.text import slugify # type: ignore
 
 class Menu(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name='Menu Name')
@@ -23,8 +23,7 @@ class MenuItem(models.Model):
     menu = models.ForeignKey(Menu, related_name='items', on_delete=models.CASCADE)
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    named_url = models.CharField(max_length=100, blank=True)
-    url = models.CharField(max_length=300, blank=True)
+    url = models.CharField(max_length=100, blank=True)
 
     class Meta:
         verbose_name = 'menu item'
@@ -35,6 +34,4 @@ class MenuItem(models.Model):
         return self.title
 
     def get_url(self):
-        if self.named_url:
-            return self.named_url
         return self.url

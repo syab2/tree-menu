@@ -5,7 +5,7 @@ from .models import Menu, MenuItem
 class MenuItemInline(admin.TabularInline):
     model = MenuItem
     extra = 1
-    fields = ('title', 'parent', 'url', 'slug')
+    fields = ('title', 'parent', 'url', )
 
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
@@ -15,6 +15,6 @@ class MenuAdmin(admin.ModelAdmin):
 
 @admin.register(MenuItem)
 class MenuItemAdmin(admin.ModelAdmin):
-    list_display = ('title', 'menu', 'parent', 'url', 'named_url')
-    prepopulated_fields = {'named_url': ('title',)}
+    list_display = ('title', 'menu', 'parent', 'url',)
+    prepopulated_fields = {'url': ('title',)}
     list_filter = ('menu',)
