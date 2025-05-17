@@ -9,7 +9,7 @@
 
 1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/yourusername/tree-menu.git
+git clone https://github.com/syab2/tree-menu.git
 cd tree-menu
 ```
 2. Запустите автоматическую установку (Windows):
