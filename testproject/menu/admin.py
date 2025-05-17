@@ -6,6 +6,7 @@ class MenuItemInline(admin.TabularInline):
     model = MenuItem
     extra = 1
     fields = ('title', 'parent', 'url', )
+    prepopulated_fields = {'url': ('title',)}
 
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
