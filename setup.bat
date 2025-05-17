@@ -70,10 +70,17 @@ if %errorlevel% neq 0 (
 
 :: Creating the main menu
 echo Creating the main menu...
-python manage.py shell -c "
-from menu.models import Menu
-menu, created = Menu.objects.get_or_create(name='main_menu', slug='main_menu')
-"
+(
+echo from tree_menu.models import Menu, MenuItem^
+echo menu, created = Menu.objects.get_or_create(name='main_menu', slug='main')^
+echo if created:^
+echo     MenuItem.objects.create(menu=menu, title='Главная', url='/', order=1)^
+echo     MenuItem.objects.create(menu=menu, title='Продукты', url='/products/', order=2)^
+echo     MenuItem.objects.create(menu=menu, title='О компании', url='/about/', order=3)^
+echo     print('Создано основное меню с 3 пунктами')^
+echo else:^
+echo     print('Меню уже существует')
+) | python manage.py shell
 
 :: Create a superuser (optional)
 set /p create_superuser="Create superuser? (y/n):"
