@@ -70,7 +70,7 @@ if %errorlevel% neq 0 (
 
 :: Creating the main menu
 echo Creating the main menu...
-python manage.py < create_menu.py
+python manage.py shell < create_menu.py
 
 :: Create a superuser (optional)
 set /p create_superuser="Create superuser? (y/n):"
