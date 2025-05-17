@@ -68,6 +68,13 @@ if %errorlevel% neq 0 (
     exit /b
 )
 
+:: Creating the main menu
+echo Creating the main menu...
+python manage.py shell -c "
+from menu.models import Menu
+menu, created = Menu.objects.get_or_create(name='main_menu', slug='main_menu')
+"
+
 :: Create a superuser (optional)
 set /p create_superuser="Create superuser? (y/n):"
 if /i "%create_superuser%"=="y" (
