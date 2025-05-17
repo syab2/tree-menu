@@ -60,6 +60,7 @@ if %errorlevel% neq 0 (
 
 :: Applying migrations
 echo Applying migrations...
+cd testproject
 python manage.py migrate
 if %errorlevel% neq 0 (
     echo ERROR: Failed to run event
