@@ -173,4 +173,5 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-./testproject/menu/migrations/
+testproject/menu/migrations/
+menu/migrations/
